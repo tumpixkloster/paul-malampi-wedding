@@ -62,10 +62,27 @@ function startCountdown() {
 }
 
 function setupDirections() {
-  $("#dirChurch").href = WEDDING.churchMap;
-  $("#dirReception").href = WEDDING.receptionMap;
-}
+  const churchButton = document.querySelector("#dirChurch");
+  const receptionButton = document.querySelector("#dirReception");
 
+  const churchUrl =
+    "https://www.google.com/maps/search/?api=1&query=-12.970409422362602,28.641622770637557";
+
+  const receptionUrl =
+    "https://maps.app.goo.gl/UH8mLAkQSzAgvjht5";
+
+  if (churchButton) {
+    churchButton.setAttribute("href", churchUrl);
+    churchButton.setAttribute("target", "_blank");
+    churchButton.setAttribute("rel", "noopener noreferrer");
+  }
+
+  if (receptionButton) {
+    receptionButton.setAttribute("href", receptionUrl);
+    receptionButton.setAttribute("target", "_blank");
+    receptionButton.setAttribute("rel", "noopener noreferrer");
+  }
+}
 function setupRsvp(guest) {
   const guestName = guest ? guest.name : "a guest";
   $("#rsvpButtons").innerHTML = WEDDING.contacts.map((contact) => {
