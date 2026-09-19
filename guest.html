@@ -8,4 +8,306 @@
 <section class="dark-section"><div class="wrap"><p class="kicker">Tap a card for navigation</p><h2>Directions</h2><div class="directions"><a id="dirChurch" target="_blank" rel="noopener"><img src="assets/img/church-qr.png" alt="Church directions QR code"><h3>Marriage Blessing</h3><p>Bethel Church International</p><span>Open directions</span></a><a id="dirReception" target="_blank" rel="noopener"><img src="assets/img/reception-qr.png" alt="Minsundu Recreation Park directions QR code"><h3>Pictures & Reception</h3><p>Minsundu Recreation Park</p><span>Open directions</span></a></div></div></section>
 <section class="photo-section photo-five"><div class="shade"></div><div class="wrap above"><p class="kicker">Kindly reply by 10 October 2026</p><h2>RSVP</h2><p class="center">Please confirm attendance by WhatsApp or call.</p><div id="rsvpButtons" class="actions"></div><div class="contacts"><a href="tel:+260977403271"><b>James Kaimba</b><br>+260 97 740 3271</a><a href="tel:+260967440813"><b>Micah Kambe</b><br>+260 96 744 0813</a></div></div></section>
 <section class="ticket-section"><div class="wrap"><p class="kicker">Your personal admission pass</p><h2>Wedding Entry Ticket</h2><div class="ticket"><div class="ticket-top"><span>P & M</span><small>21 · 11 · 2026</small></div><img id="ticketQr" alt="Personal wedding entry QR code"><h3 id="ticketName">Guest</h3><p id="ticketParty"></p><strong id="ticketId"></strong><p class="ticket-note">Please present this QR code when you arrive. A screenshot works offline.</p><button id="downloadTicket" class="button">Save ticket QR</button></div></div></section>
-</main><footer><span>With love,</span><strong>Dr. Paul &amp; Malampi</strong></footer><div class="lightbox" id="lightbox"><button type="button" aria-label="Close">&times;</button><img alt="Enlarged photograph"></div><script src="/paul-malampi-wedding/assets/app.js?v=6"></script></body></html>
+</main><footer><span>With love,</span><strong>Dr. Paul &amp; Malampi</strong></footer><div class="lightbox" id="lightbox"><button type="button" aria-label="Close">&times;</button><img alt="Enlarged photograph"></div><script src="/paul-malampi-wedding/assets/app.js?v=6"></script><!-- Luxury wedding intro -->
+<div id="weddingIntro" class="wedding-intro" aria-hidden="true">
+  <div class="intro-glow"></div>
+
+  <div class="intro-content">
+    <div class="intro-rings" aria-hidden="true">
+      <span class="intro-ring intro-ring-left"></span>
+      <span class="intro-ring intro-ring-right"></span>
+    </div>
+
+    <div class="intro-monogram">P &amp; M</div>
+    <div class="intro-date">21 · 11 · 2026</div>
+  </div>
+</div>
+
+<style>
+  .wedding-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at center,
+        rgba(32, 27, 18, 0.42) 0%,
+        rgba(9, 9, 11, 0.98) 48%,
+        #050506 100%
+      );
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    animation: introFadeOut 0.9s ease 3.25s forwards;
+  }
+
+  .intro-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: min(90vw, 520px);
+    min-height: 320px;
+    text-align: center;
+  }
+
+  .intro-rings {
+    position: relative;
+    width: 190px;
+    height: 100px;
+  }
+
+  .intro-ring {
+    position: absolute;
+    top: 13px;
+    width: 72px;
+    height: 72px;
+    border: 2px solid #d8b867;
+    border-radius: 50%;
+    box-shadow:
+      inset 0 0 4px rgba(255, 235, 176, 0.35),
+      0 0 5px rgba(216, 184, 103, 0.18);
+    opacity: 0;
+  }
+
+  .intro-ring::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(244, 220, 153, 0.42);
+    border-radius: 50%;
+  }
+
+  .intro-ring-left {
+    left: 0;
+    transform: translateX(-90px);
+    animation: introRingLeft 1.55s cubic-bezier(.22, .75, .25, 1) 0.25s forwards;
+  }
+
+  .intro-ring-right {
+    right: 0;
+    transform: translateX(90px);
+    animation: introRingRight 1.55s cubic-bezier(.22, .75, .25, 1) 0.25s forwards;
+  }
+
+  .intro-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgba(231, 199, 112, 0.22);
+    filter: blur(8px);
+    opacity: 0;
+    transform: translate(-50%, -84px) scale(0.4);
+    animation: introGlow 1.25s ease 1.38s forwards;
+  }
+
+  .intro-monogram {
+    margin-top: 20px;
+    color: #f3dfac;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-indent: 0.16em;
+    opacity: 0;
+    transform: translateY(10px);
+    text-shadow: 0 0 18px rgba(216, 184, 103, 0.18);
+    animation: introTextReveal 0.8s ease 1.75s forwards;
+  }
+
+  .intro-date {
+    position: relative;
+    margin-top: 22px;
+    padding-top: 18px;
+    color: rgba(251, 247, 237, 0.88);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: introTextReveal 0.75s ease 2.15s forwards;
+  }
+
+  .intro-date::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      #d8b867,
+      transparent
+    );
+    transform: translateX(-50%);
+    animation: introGoldLine 0.8s ease 2.05s forwards;
+  }
+
+  @keyframes introRingLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-90px) rotate(-12deg) scale(0.94);
+    }
+
+    30% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(34px) rotate(0deg) scale(1);
+    }
+  }
+
+  @keyframes introRingRight {
+    0% {
+      opacity: 0;
+      transform: translateX(90px) rotate(12deg) scale(0.94);
+    }
+
+    30% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(-34px) rotate(0deg) scale(1);
+    }
+  }
+
+  @keyframes introGlow {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -84px) scale(0.4);
+    }
+
+    45% {
+      opacity: 0.8;
+      transform: translate(-50%, -84px) scale(4.5);
+    }
+
+    100% {
+      opacity: 0.18;
+      transform: translate(-50%, -84px) scale(6);
+    }
+  }
+
+  @keyframes introTextReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes introGoldLine {
+    to {
+      width: 120px;
+    }
+  }
+
+  @keyframes introFadeOut {
+    0% {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    99% {
+      opacity: 0;
+      visibility: visible;
+    }
+
+    100% {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .intro-rings {
+      width: 164px;
+      height: 90px;
+    }
+
+    .intro-ring {
+      width: 66px;
+      height: 66px;
+    }
+
+    .intro-monogram {
+      margin-top: 16px;
+    }
+
+    .intro-date {
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-indent: 0.24em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wedding-intro {
+      animation-duration: 0.4s;
+      animation-delay: 2.7s;
+    }
+
+    .intro-ring-left {
+      opacity: 1;
+      transform: translateX(31px);
+      animation: none;
+    }
+
+    .intro-ring-right {
+      opacity: 1;
+      transform: translateX(-31px);
+      animation: none;
+    }
+
+    .intro-monogram,
+    .intro-date {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .intro-date::before {
+      width: 120px;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const intro = document.getElementById("weddingIntro");
+
+    if (!intro) return;
+
+    document.documentElement.style.overflow = "hidden";
+
+    window.setTimeout(function () {
+      document.documentElement.style.overflow = "";
+    }, 4200);
+
+    intro.addEventListener("animationend", function (event) {
+      if (event.animationName === "introFadeOut") {
+        intro.remove();
+        document.documentElement.style.overflow = "";
+      }
+    });
+  })();
+</script></body></html>
