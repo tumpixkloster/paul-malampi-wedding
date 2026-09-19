@@ -80,27 +80,73 @@ function toIcsDate(date) {
   return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 }
 
+
 function setupCalendar() {
-  $("#addToCalendar").addEventListener("click", () => {
-    const end = new Date(WEDDING.start.getTime() + 10 * 60 * 60 * 1000);
-    const content = [
+  const button = document.querySelector("#addToCalendar");
+
+  if (!button) return;
+
+  button.addEventListener("click", () => {
+    const useGoogleCalendar = window.confirm(
+      "Add to Google Calendar?\n\nSelect OK for Google Calendar.\nSelect Cancel for Apple Calendar or Outlook."
+    );
+
+    if (useGoogleCalendar) {
+      const googleCalendarUrl =
+        "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+        "&text=" +
+        encodeURIComponent("Paul & Malampi's Wedding") +
+        "&dates=20261121T070000Z/20261121T170000Z" +
+        "&details=" +
+        encodeURIComponent(
+          "Marriage Blessing at 9:00 AM at Bethel Church International. Picture Session at 12:00 PM and Reception at 4:00 PM at Minsundu Recreation Park."
+        ) +
+        "&location=" +
+        encodeURIComponent("Bethel Church International, Ndola, Zambia");
+
+      window.location.href = googleCalendarUrl;
+      return;
+    }
+
+    const calendarContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
+      "PRODID:-//Paul and Malampi Wedding//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
       "BEGIN:VEVENT",
-      `DTSTART:${toIcsDate(WEDDING.start)}`,
-      `DTEND:${toIcsDate(end)}`,
-      "SUMMARY:Paul & Malampi Wedding",
-      "LOCATION:Bethel Church International, Ndola",
+      "UID:paul-malampi-wedding-20261121@wedding",
+      "DTSTAMP:20260919T100000Z",
+      "DTSTART:20261121T070000Z",
+      "DTEND:20261121T170000Z",
+      "SUMMARY:Paul & Malampi's Wedding",
+      "DESCRIPTION:Marriage Blessing at 9:00 AM at Bethel Church International. Picture Session at 12:00 PM and Reception at 4:00 PM at Minsundu Recreation Park.",
+      "LOCATION:Bethel Church International, Ndola, Zambia",
+      "STATUS:CONFIRMED",
       "END:VEVENT",
       "END:VCALENDAR"
     ].join("\r\n");
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(new Blob([content], { type: "text/calendar" }));
-    link.download = "paul-malampi-wedding.ics";
-    link.click();
+    const calendarBlob = new Blob([calendarContent], {
+      type: "text/calendar;charset=utf-8"
+    });
+
+    const calendarFileUrl = URL.createObjectURL(calendarBlob);
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = calendarFileUrl;
+    downloadLink.download = "paul-and-malampi-wedding.ics";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+
+    window.setTimeout(() => {
+      URL.revokeObjectURL(calendarFileUrl);
+    }, 1000);
   });
 }
+
+
 
 function setupGallery() {
   const lightbox = $("#lightbox");
