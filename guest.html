@@ -22,7 +22,13 @@
     <div class="intro-date">21 · 11 · 2026</div>
   </div>
 </div>
-
+<!-- Personal welcome message -->
+<div id="personalWelcome" class="personal-welcome" aria-hidden="true">
+  <div class="personal-welcome-content">
+    <span class="personal-welcome-label">Welcome,</span>
+    <strong id="personalWelcomeName">Dear Guest</strong>
+  </div>
+</div>
 <style>
   .wedding-intro {
     position: fixed;
@@ -261,6 +267,120 @@ isolation: isolate;
     }
   }
 
+  /* Personal welcome message after the wedding intro */
+.personal-welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #050506;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.personal-welcome.show {
+  visibility: visible;
+  animation: personalWelcomeSequence 2.4s ease forwards;
+}
+
+.personal-welcome-content {
+  width: min(90vw, 520px);
+  padding: 48px 28px;
+  text-align: center;
+  border: 1px solid rgba(216, 184, 103, 0.35);
+  border-radius: 220px 220px 18px 18px;
+  background: linear-gradient(
+    180deg,
+    rgba(17, 15, 11, 0.98),
+    rgba(6, 6, 7, 1)
+  );
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.65),
+    inset 0 0 28px rgba(216, 184, 103, 0.05);
+  opacity: 0;
+  transform: translateY(14px) scale(0.98);
+}
+
+.personal-welcome-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #d8b867;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+
+#personalWelcomeName {
+  display: block;
+  color: #fbf7ed;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 20px rgba(216, 184, 103, 0.16);
+}
+
+.personal-welcome.show .personal-welcome-content {
+  animation: personalWelcomeCard 2.4s ease forwards;
+}
+
+@keyframes personalWelcomeSequence {
+  0% {
+    opacity: 0;
+  }
+
+  16% {
+    opacity: 1;
+  }
+
+  78% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes personalWelcomeCard {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  78% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-8px) scale(1.01);
+  }
+}
+
+@media (max-width: 520px) {
+  .personal-welcome-content {
+    padding: 42px 20px 34px;
+  }
+
+  .personal-welcome-label {
+    font-size: 1.05rem;
+  }
+}
+
   @media (prefers-reduced-motion: reduce) {
     .wedding-intro {
       animation-duration: 0.4s;
@@ -293,7 +413,7 @@ isolation: isolate;
   }
 </style>
 
-<script>
+<>
   (function () {
     const intro = document.getElementById("weddingIntro");
 
@@ -306,10 +426,26 @@ isolation: isolate;
     }, 4200);
 
     intro.addEventListener("animationend", function (event) {
-      if (event.animationName === "introFadeOut") {
-        intro.remove();
-        document.documentElement.style.overflow = "";
-      }
-    });
-  })();
+  if (event.animationName !== "introFadeOut") return;
+
+  const welcome = document.getElementById("personalWelcome");
+  const welcomeName = document.getElementById("personalWelcomeName");
+  const guestName = document.getElementById("guestName");
+
+  intro.remove();
+  document.documentElement.style.overflow = "";
+
+  if (welcome && welcomeName && guestName) {
+    const cleanGuestName = guestName.textContent.replace(/^Dear\s+/i, "").trim();
+
+    welcomeName.textContent = cleanGuestName || "Dear Guest";
+    welcome.classList.add("show");
+
+    window.setTimeout(function () {
+      welcome.classList.remove("show");
+      welcome.remove();
+    }, 2500);
+  }
+});
 </script></body></html>
+});
